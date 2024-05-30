@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #212121;
+        color: #ffff;
+        text-align: center;
+      }
+
+      .container {
+        width: 100%;
+        height: 100vh;
+display: flex;
+        font-size: 10px;
+        font-family: sans-serif;
+        align-items: center;
+        justify-content: center;
+      }
+      .profile {
+        border-radius: 30px;
+        background-color: #ff910069;
+        height: 300px;
+        width: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .image{
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+        margin: 10px;
+        
+      }
+      
+    </style>
+  </head>
+
+  <body>
+    <!-- 
+    0 unsent  client created, open not called yet
+    1 opened  open has been called  
+    2 headers_received  send() has been called
+    3 loading  downnloading ; responseText holds partial data
+    4 done  operation completed  
+     -->
+     <h1>Profile fetched from github</h1><br/>
+        <hr>
+    <div class="container">
+        
+      <div class="profile">
+        <div class="photo"></div>
+        <div class="followers"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    // const xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function(){
+    //     console.log(xhr.readyState);
+    // }
+    // xhr.open('GET','https://jsonplaceholder.typicode.com/todos/1');
+    // xhr.send();
+    const xhr = new XMLHttpRequest();
+    const requestUrl = "https://api.github.com/users/A-JA-Y";
+    xhr.open("GET", requestUrl);
+
+    xhr.addEventListener("load", () => {
+      const data = JSON.parse(xhr.responseText);
+      console.log(data);
+      document.getElementsByClassName(
+        "photo"
+      )[0].innerHTML = `<img class="image" src= ${data["avatar_url"]} alt="" />`;
+      document.getElementsByClassName(
+        "followers"
+      )[0].innerHTML = `<span>Name : ${data["name"]} <br/>
+        Address : ${data["location"]} <br/>
+        Followers : ${data["followers"]}</span>`;
+    });
+    // console.log('here:',xhr.responseText);
+
+    xhr.send();
+  </script>
+</html>
